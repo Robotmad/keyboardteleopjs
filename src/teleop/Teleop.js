@@ -23,13 +23,13 @@ KEYBOARDTELEOP.Teleop = function(options) {
   var throttle = options.throttle || 1.0;
 
   // used to externally throttle the speed (e.g., from a slider)
-  this.scaleR = 1.0;  // Linear
+  this.scaleL = 1.0;  // Linear
   this.scaleA = 1.0;  // Angular
   
   // linear x and y movement and angular z movement
-  var x = 0;
+  var x = 0.0;
   //var y = 0;
-  var z = 0;
+  var z = 0.0;
 
   var cmdVel = new ROSLIB.Topic({
     ros : ros,
@@ -46,13 +46,13 @@ KEYBOARDTELEOP.Teleop = function(options) {
     
     var pub = true;
 
-    var speed = 0;
-    var rotation = 0;
+    var speed = 0.0;
+    var rotation = 0.0;
     
     // throttle the speed by the slider and throttle constant
     if (keyDown === true) {
       speed = throttle * that.scaleL;
-      rotation = throttle * that.scaleA;  
+      rotation = throttle * that.scaleA;
     }
     // check which key was pressed
     switch (keyCode) {
@@ -69,12 +69,12 @@ KEYBOARDTELEOP.Teleop = function(options) {
       case 68:
       case 39:
         // turn right
-        z = -1 * rotation;
+        z = -1.0 * rotation;
         break;
       case 83:
       case 40:
         // down
-        x = -1 * speed;
+        x = -1.0 * speed;
         break;
       //case 69:
         // strafe right
@@ -92,20 +92,20 @@ KEYBOARDTELEOP.Teleop = function(options) {
     if (pub === true) {
       var twist = new ROSLIB.Message({
         angular : {
-          x : 0,
-          y : 0,
+          x : 0.0,
+          y : 0.0,
           z : z
         },
         linear : {
           x : x,
-          y : 0,
-          z : 0
+          y : 0.0,
+          z : 0.0
         }
       });
       cmdVel.publish(twist);
 
       // check for changes
-      if (oldX !== x || /*oldY !== y*/ || oldZ !== z) {
+      if (oldX !== x || /* oldY !== y|| */ oldZ !== z) {
         that.emit('change', twist);
       }
     }

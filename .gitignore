@@ -1,3 +1,5 @@
 .idea
 node_modules
 doc
+build/keyboardteleop.js
+build/keyboardteleop.min.js
